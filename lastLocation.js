@@ -123,7 +123,6 @@ async function refreshSubscriptions(client) {
       if (!vehicleNo) continue;
       newVehicleMap.set(vehicleNo, {
         imeiNo,
-        transporterId: row.transporter_id || null,
         districtId: row.district_id || null,
         onTrip: Number(row.on_trip || 0),
       });
@@ -231,7 +230,6 @@ function handleMqttMessage(topic, message) {
       ignitionStatus: Number(packet.ignition_status || 0),
       last_location_update: gpsAtIST,
       districtId: metadata.districtId,
-      transporterId: metadata.transporterId,
       onTrip: metadata.onTrip,
     };
 

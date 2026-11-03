@@ -1,6 +1,21 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { updatePaddyLocations } = require('./paddyLocations.repository');
+const { fetchPaddyVehicles, updatePaddyLocations } = require('./paddyLocations.repository');
+
+test('vehicle subscriptions use independent vehicle fields after migration 073', async () => {
+  const rows = [{ vehicle_no: 'JH01AB1234', imei_no: '123456789012345',
+    district_id: 12, on_trip: 1 }];
+  let query;
+  const result = await fetchPaddyVehicles({ execute: async sql => {
+    query = sql;
+    return [rows];
+  } });
+  assert.equal(result, rows);
+  assert.doesNotMatch(query, /transporter/i);
+  assert.match(query, /v\.district_id/);
+  assert.match(query, /d\.active=1 AND i\.active=1 AND v\.active=1/);
+  assert.match(query, /s\.vehicle_id=v\.id AND s\.trip_status=1/);
+});
 
 test('Paddy location sync binds all four fields and protects completed trips and newer fixes', async () => {
   const calls = [];

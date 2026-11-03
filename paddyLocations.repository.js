@@ -9,7 +9,7 @@ async function fetchPaddyVehicles(pool) {
   const schema = schemaName();
   const [rows] = await pool.execute(`
     SELECT v.registration_no AS vehicle_no, i.imei AS imei_no,
-      v.transporter_id, d.district_id,
+      v.district_id,
       EXISTS(SELECT 1 FROM ${schema}.shipments s
         WHERE s.vehicle_id=v.id AND s.trip_status=1) AS on_trip
     FROM ${schema}.gps_devices d
