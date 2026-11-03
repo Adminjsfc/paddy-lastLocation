@@ -1,0 +1,19 @@
+{
+  "name": "paddy-location-service",
+  "version": "1.0.0",
+  "main": "lastLocation.js",
+  "scripts": {
+    "start": "node lastLocation.js",
+    "test": "node --test paddyLocations.test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "GPS location update service for Paddy vehicles and active shipments",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "ioredis": "^6.0.0",
+    "mqtt": "^5.15.1",
+    "mysql2": "^3.22.5"
+  }
+}
